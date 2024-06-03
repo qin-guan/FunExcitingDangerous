@@ -41,7 +41,7 @@ public class AuthMiddleware(RequestDelegate next, IOptions<AuthenticationOptions
     {
         if (!context.Request.Headers.TryGetValue("Authorization", out var auth))
         {
-            context.Response.StatusCode = 403;
+            context.Response.StatusCode = 401;
             return Task.CompletedTask;
         }
 
@@ -65,7 +65,7 @@ public class AuthMiddleware(RequestDelegate next, IOptions<AuthenticationOptions
 
         if (hasValidCredential) return next(context);
 
-        context.Response.StatusCode = 401;
+        context.Response.StatusCode = 403;
 
         return Task.CompletedTask;
     }
